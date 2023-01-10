@@ -20,12 +20,34 @@ FROM Delivery
 GO
 
 -- 3 ќбласти в которых нет ниодного производител€
-
+SELECT Region.name "Name" FROM Region
+EXCEPT
+SELECT
+	Region.name "Name"
+FROM Producer
+	JOIN Address ON Address.id = Producer.id
+	JOIN City ON City.id = Address.id_city
+	JOIN Region ON Region.id = City.id_region
 
 -- 4 Ќазвани€ категорий которые не производит "—упер крупа" (ID 3)
+SELECT Category.name FROM Category
+EXCEPT
+SELECT
+	Category.name "Categoty"
+FROM Producer
+	JOIN Product ON Product.id_producer = Producer.id
+	JOIN Category ON Category.id = Product.id_category
+WHERE Producer.id = 3
 
-
--- 5 ѕоказать производителей которые не выпускают продукты молочной категории
+-- 5 ѕоказать производителей которые не выпускают продукты молочной (ID 1) категории
+SELECT Producer.name "Name" FROM Producer
+EXCEPT
+SELECT
+	Producer.name "Name"
+FROM Producer
+	JOIN Product ON Product.id_producer = Producer.id
+	JOIN Category ON Category.id = Product.id_category
+WHERE Category.id = 1
 
 
 	
